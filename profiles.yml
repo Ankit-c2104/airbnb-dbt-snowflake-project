@@ -1,0 +1,15 @@
+airbnb-project:
+  outputs:
+    dev:
+      account: VBWFPNJ-ON13785
+      database: AIRBNB
+      password: Ankitchauhan2104
+      role: accountadmin
+      schema: DBT_SCHEMA
+      threads: 16
+      type: snowflake
+      user: ankitc
+      warehouse: TRANSFORMING
+  target: dev
+
+

@@ -1,0 +1,30 @@
+name: airbnb_project
+
+# This setting configures which "profile" dbt uses for this project from profile.yml.
+profile: airbnb-project
+
+model-paths: ["models"]
+analysis-paths: ["analyses"]
+test-paths: ["tests"]
+seed-paths: ["seeds"]
+macro-paths: ["macros"]
+snapshot-paths: ["snapshots"]
+
+clean-targets:  # directories to be removed by `dbt clean`
+  - "target"
+  - "dbt_packages"
+
+models:
+  airbnb_project:
+    # Default materialization for the whole project (can be overridden per-folder)
+    +materialized: table
+    
+    # Materialization for all models inside models/bronze/ (This overides project level materialization)
+    bronze:
+      +materialized: table
+
+      # all the models in models/bronze will be created in the schema "bronze_schema" (This overides project level schema)
+      +schema: bronze_schema
+
+    
+    

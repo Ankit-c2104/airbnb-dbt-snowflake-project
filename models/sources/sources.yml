@@ -1,0 +1,9 @@
+sources:
+  - name: staging   ## source name should be same as the name of the schema
+    database: AIRBNB  
+    schema: staging  
+    tables:
+      - name: listings
+      - name: hosts
+      - name: bookings
+
