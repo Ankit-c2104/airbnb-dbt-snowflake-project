@@ -1,7 +1,7 @@
-{% set col = ['nights_booked', 'booking_id', 'booking_amount'] %}
+{% set cols = ['nights_booked', 'booking_id', 'booking_amount'] %}
 
 select 
-{% for c in col %}
+{% for c in cols %}
     {{c}}
     {% if not loop.last %}, {% endif %}
 {% endfor %}
