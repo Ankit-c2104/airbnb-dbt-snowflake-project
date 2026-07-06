@@ -2,7 +2,7 @@
 
 select 
 {% for c in cols %}
-    {{c}}
+    {{ c }}
     {% if not loop.last %}, {% endif %}
 {% endfor %}
-from {{ref('bronze_bookings')}}
+from {{ ref('bronze_bookings') }}

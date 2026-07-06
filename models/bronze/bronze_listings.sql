@@ -1,5 +1,5 @@
 
-{{ config(materialized='incremental', unique_key='listing_id') }}
+{{ config(materialized='incremental') }}
 
 SELECT *
 FROM {{ source('staging', 'listings') }}
