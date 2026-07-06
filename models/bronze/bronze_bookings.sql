@@ -1,2 +1,15 @@
-select *
-from {{ source('staging', 'bookings') }}
+
+{{ config(materialized='incremental') }}
+
+SELECT *
+FROM {{ source('staging', 'bookings') }}
+
+{% if is_incremental() %}
+    WHERE created_at > (SELECT MAX(created_at) FROM {{ this }})
+{% endif %}
+
+{#
+-- booking_id — Unique identifier to update existing rows or inserts new ones
+#}
+
+

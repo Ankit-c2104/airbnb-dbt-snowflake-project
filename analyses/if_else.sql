@@ -2,7 +2,7 @@
 {% set flag = 1 %}
 
 select *
-from {{ref('bronze_bookings')}}
+from {{ ref('bronze_bookings') }}
 
 {% if flag == 1 %}
     where nights_booked > 1

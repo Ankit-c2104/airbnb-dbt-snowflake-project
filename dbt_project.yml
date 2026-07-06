@@ -26,5 +26,18 @@ models:
       # all the models in models/bronze will be created in the schema "bronze_schema" (This overides project level schema)
       +schema: bronze_schema
 
+    silver:
+      +materialized: table
+      +schema: silver_schema
+
+    gold:
+      +materialized: table
+      +schema: gold_schema
+      
+      ephemeral:
+        +materialized: table
+        +schema: ephemeral
+
+
     
     
