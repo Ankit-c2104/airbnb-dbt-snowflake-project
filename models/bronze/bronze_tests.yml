@@ -1,0 +1,39 @@
+models:
+  - name: airbnb_project
+    description: name of the model in project.yml
+  
+  - name: bronze_bookings
+    description: One unique booking per row
+    columns:
+      - name: BOOKING_ID # primary key
+        description: the primary key of the bookings table
+        data_tests:
+          - unique
+          - not_null
+
+  - name: bronze_hosts
+    description: One unique host per row
+    columns:
+      - name: HOST_ID # primary key
+        description: the primary key of the hosts table
+        data_tests:
+          - unique
+          - not_null
+
+      - name: is_superhost
+        description: Whether the host is a superhost or not
+        data_tests:
+          - accepted_values:
+              arguments:
+                values: ['TRUE', 'FALSE']
+
+  - name: bronze_listings
+    description: One unique listing per row
+    columns:
+      - name: LISTING_ID # primary key
+        description: the primary key of the listings table
+        data_tests:
+          - unique
+          - not_null
+
+     

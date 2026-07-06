@@ -1,6 +1,6 @@
 snapshots:
-    - name: dim_hosts
-      relation: ref('hosts')
+    - name: dim_hosts 
+      relation: ref('hosts') # Reference to the ephemeral model 
       config:
         schema: gold_schema
         database: AIRBNB
