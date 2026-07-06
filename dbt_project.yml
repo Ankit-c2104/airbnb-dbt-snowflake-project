@@ -30,6 +30,10 @@ models:
       +materialized: table
       +schema: silver_schema
 
+    gold:
+      +materialized: table
+      +schema: gold_schema
+
 
     
     
