@@ -1,5 +1,5 @@
 # Airbnb dbt Project
-
+Project referred from: https://github.com/anshlambagit/Airbnb_Snowflake_DBT_Data_Engineer_Project/tree/main
 _powered by the dbt Fusion engine_
 
 Welcome! This project is set up for transforming Airbnb-related data in dbt.
