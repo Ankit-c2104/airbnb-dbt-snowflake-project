@@ -3,7 +3,7 @@ airbnb-project:
     dev:
       account: VBWFPNJ-ON13785
       database: AIRBNB
-      password: Ankitchauhan2104
+      password: *********
       role: accountadmin
       schema: DBT_SCHEMA
       threads: 16
