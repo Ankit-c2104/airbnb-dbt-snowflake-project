@@ -1,4 +1,5 @@
 name: airbnb_project
+config-version: 2
 
 # This setting configures which "profile" dbt uses for this project from profile.yml.
 profile: airbnb-project
