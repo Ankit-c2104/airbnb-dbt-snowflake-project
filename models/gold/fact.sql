@@ -1,17 +1,17 @@
 {% set congigs = [
     {
-        "table" : "AIRBNB.GOLD_SCHEMA.OBT",
-        "columns" : "GOLD_obt.BOOKING_ID, GOLD_obt.LISTING_ID, GOLD_obt.HOST_ID,GOLD_obt.TOTAL_AMOUNT, GOLD_obt.SERVICE_FEE, GOLD_obt.CLEANING_FEE, GOLD_obt.ACCOMMODATES, GOLD_obt.BEDROOMS, GOLD_obt.BATHROOMS, GOLD_obt.PRICE_PER_NIGHT, GOLD_obt.RESPONSE_RATE",
+        "table" : ref('obt'),
+        "columns" : "GOLD_obt.BOOKING_ID, GOLD_obt.LISTING_ID, GOLD_obt.HOST_ID,GOLD_obt.TOTAL_AMOUNT, GOLD_obt.SERVICE_FEE, GOLD_obt.CLEANING_FEE, GOLD_obt.ACCOMMODATES, GOLD_obt.BEDROOMS, GOLD_obt.BATHROOMS, GOLD_obt.PRICE_PER_NIGHT, GOLD_obt.RESPONSE_RATE, GOLD_obt.BOOKING_DATE",
         "alias" : "GOLD_obt"
     },
-    { 
-        "table" : "AIRBNB.GOLD_SCHEMA.DIM_LISTINGS",
+    {
+        "table" : ref('dim_listings'),
         "columns" : "",
         "alias" : "DIM_listings",
         "join_condition" : "GOLD_obt.listing_id = DIM_listings.listing_id"
     },
     {
-        "table" : "AIRBNB.GOLD_SCHEMA.DIM_HOSTS",
+        "table" : ref('dim_hosts'),
         "columns" : "",
         "alias" : "DIM_hosts",
         "join_condition" : "GOLD_obt.host_id = DIM_hosts.host_id"

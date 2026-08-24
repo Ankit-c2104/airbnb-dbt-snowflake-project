@@ -4,3 +4,5 @@ logs/
 target/
 .env
 .DS_Store
+profiles.yml
+profiles.yml
