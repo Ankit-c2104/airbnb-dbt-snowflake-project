@@ -1,7 +1,7 @@
 
 Project referred from: https://github.com/anshlambagit/Airbnb_Snowflake_DBT_Data_Engineer_Project/tree/main
 
-# 🏠 Airbnb End-to-End Data Engineering Project
+# 🏠 Airbnb End-to-End DBT Project
 
 ## 📋 Overview
 
