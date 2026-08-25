@@ -1,0 +1,137 @@
+version: 2
+
+models:
+  - name: fct_bookings
+    description: >
+      Fact table at booking grain. One row per booking, with booking-level
+      measures plus point-in-time (as-of) listing and host attributes from
+      the SCD2 dim_listings and dim_hosts snapshots.
+    columns:
+      - name: BOOKING_ID
+        description: Primary key. Unique identifier for a booking transaction.
+        tests:
+          - unique
+          - not_null
+
+      - name: LISTING_ID
+        description: Foreign key to dim_listings.
+        tests:
+          - relationships:
+              arguments:
+                to: ref('dim_listings')
+                field: LISTING_ID
+
+      - name: HOST_ID
+        description: Foreign key to dim_hosts.
+        tests:
+          - relationships:
+              arguments:
+                to: ref('dim_hosts')
+                field: HOST_ID
+
+      - name: TOTAL_AMOUNT
+        description: Total booking amount (nights booked x nightly rate).
+
+      - name: SERVICE_FEE
+        description: Service fee charged on the booking.
+
+      - name: CLEANING_FEE
+        description: Cleaning fee charged on the booking.
+
+      - name: ACCOMMODATES
+        description: Guest capacity of the booked listing.
+
+      - name: BEDROOMS
+        description: Number of bedrooms in the booked listing.
+
+      - name: BATHROOMS
+        description: Number of bathrooms in the booked listing.
+
+      - name: PRICE_PER_NIGHT
+        description: Nightly price of the booked listing.
+
+      - name: RESPONSE_RATE
+        description: Host's response rate at time of the current dimension snapshot.
+
+      - name: BOOKING_DATE
+        description: Date the booking was made.
+
+      - name: PROPERTY_TYPE
+        description: Type of property (from dim_listings, as of BOOKING_DATE).
+
+      - name: ROOM_TYPE
+        description: Room type (from dim_listings, as of BOOKING_DATE).
+
+      - name: CITY
+        description: City of the listing (from dim_listings, as of BOOKING_DATE).
+
+      - name: COUNTRY
+        description: Country of the listing (from dim_listings, as of BOOKING_DATE).
+
+      - name: HOST_NAME
+        description: Host name (from dim_hosts, as of BOOKING_DATE).
+
+      - name: IS_SUPERHOST
+        description: Whether the host is a superhost (from dim_hosts, as of BOOKING_DATE).
+
+semantic_models:
+  - name: fct_bookings
+    description: >
+      Semantic model for the booking fact table. Grain is one row per booking.
+    model: ref('fct_bookings')
+    defaults:
+      agg_time_dimension: booking_date
+
+    entities:
+      - name: booking_id
+        type: primary
+        expr: BOOKING_ID
+      - name: listing_id
+        type: foreign
+        expr: LISTING_ID
+      - name: host_id
+        type: foreign
+        expr: HOST_ID
+
+    dimensions:
+      - name: booking_date
+        type: time
+        expr: BOOKING_DATE
+        type_params:
+          time_granularity: day
+      - name: property_type
+        type: categorical
+        expr: PROPERTY_TYPE
+      - name: room_type
+        type: categorical
+        expr: ROOM_TYPE
+      - name: city
+        type: categorical
+        expr: CITY
+      - name: country
+        type: categorical
+        expr: COUNTRY
+      - name: host_name
+        type: categorical
+        expr: HOST_NAME
+      - name: is_superhost
+        type: categorical
+        expr: IS_SUPERHOST
+
+    measures:
+      - name: total_amount
+        description: Sum of booking total amounts.
+        agg: sum
+        expr: TOTAL_AMOUNT
+      - name: service_fee_amount
+        description: Sum of service fees.
+        agg: sum
+        expr: SERVICE_FEE
+      - name: cleaning_fee_amount
+        description: Sum of cleaning fees.
+        agg: sum
+        expr: CLEANING_FEE
+      - name: booking_count
+        description: Count of bookings.
+        agg: count
+        expr: BOOKING_ID
