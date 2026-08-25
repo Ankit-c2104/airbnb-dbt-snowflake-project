@@ -1,0 +1,36 @@
+metrics:
+  - name: total_revenue
+    description: Total booking revenue (sum of TOTAL_AMOUNT).
+    type: simple
+    label: Total Revenue
+    type_params:
+      measure: total_amount
+
+  - name: booking_count
+    description: Count of bookings.
+    type: simple
+    label: Booking Count
+    type_params:
+      measure: booking_count
+
+  - name: total_service_fees
+    description: Total service fees collected.
+    type: simple
+    label: Total Service Fees
+    type_params:
+      measure: service_fee_amount
+
+  - name: total_cleaning_fees
+    description: Total cleaning fees collected.
+    type: simple
+    label: Total Cleaning Fees
+    type_params:
+      measure: cleaning_fee_amount
+
+  - name: avg_booking_value
+    description: Average revenue per booking (total revenue / booking count).
+    type: ratio
+    label: Average Booking Value
+    type_params:
+      numerator: total_revenue
+      denominator: booking_count
