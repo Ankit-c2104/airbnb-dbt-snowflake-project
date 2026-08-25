@@ -4,9 +4,9 @@
     )
 }}
 
-WITH listings AS 
+WITH listings AS
 (
-    SELECT 
+    SELECT
         LISTING_ID,
         PROPERTY_TYPE,
         ROOM_TYPE,
@@ -14,7 +14,8 @@ WITH listings AS
         COUNTRY,
         PRICE_PER_NIGHT_TAG,
         LISTING_CREATED_AT
-    FROM 
+    FROM
         {{ ref('obt') }}
+    QUALIFY ROW_NUMBER() OVER (PARTITION BY LISTING_ID ORDER BY LISTING_CREATED_AT DESC) = 1
 )
 SELECT * FROM listings
