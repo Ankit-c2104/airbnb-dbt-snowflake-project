@@ -36,4 +36,29 @@ models:
           - unique
           - not_null
 
-     
+  - name: bronze_guests
+    description: One unique guest per row
+    columns:
+      - name: GUEST_ID # primary key
+        description: the primary key of the guests table
+        data_tests:
+          - unique
+          - not_null
+
+  - name: bronze_payments
+    description: One unique payment per row
+    columns:
+      - name: PAYMENT_ID # primary key
+        description: the primary key of the payments table
+        data_tests:
+          - unique
+          - not_null
+
+  - name: bronze_reviews
+    description: One unique review per row
+    columns:
+      - name: REVIEW_ID # primary key
+        description: the primary key of the reviews table
+        data_tests:
+          - unique
+          - not_null

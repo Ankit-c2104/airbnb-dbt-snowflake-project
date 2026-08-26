@@ -6,4 +6,7 @@ sources:
       - name: listings
       - name: hosts
       - name: bookings
+      - name: GUESTS
+      - name: PAYMENTS
+      - name: REVIEWS
 

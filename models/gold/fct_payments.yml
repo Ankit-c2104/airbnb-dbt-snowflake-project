@@ -1,0 +1,61 @@
+version: 2
+
+models:
+  - name: fct_payments
+    description: >
+      Fact table at payment grain. One row per payment (charge, refund, or
+      payout), with payment measures plus host and guest attributes.
+    columns:
+      - name: PAYMENT_ID
+        description: Primary key. Unique identifier for a payment transaction.
+        tests:
+          - unique
+          - not_null
+
+      - name: BOOKING_ID
+        description: Foreign key to the related booking.
+        tests:
+          - relationships:
+              arguments:
+                to: ref('silver_bookings')
+                field: BOOKING_ID
+
+      - name: HOST_ID
+        description: Foreign key to silver_hosts.
+        tests:
+          - relationships:
+              arguments:
+                to: ref('silver_hosts')
+                field: HOST_ID
+
+      - name: GUEST_ID
+        description: Foreign key to silver_guests. Null for payout rows.
+        tests:
+          - relationships:
+              arguments:
+                to: ref('silver_guests')
+                field: GUEST_ID
+
+      - name: PAYMENT_DATE
+        description: Date the payment occurred.
+
+      - name: PAYMENT_TYPE
+        description: Type of payment (charge / refund / payout).
+
+      - name: PAYMENT_STATUS
+        description: Raw payment status (completed / pending / failed).
+
+      - name: PAYMENT_STATUS_GROUP
+        description: Normalized payment status bucket (SUCCESS / FAILED / PENDING).
+
+      - name: PAYMENT_AMOUNT
+        description: Amount of the payment transaction.
+
+      - name: HOST_NAME
+        description: Host name (from silver_hosts).
+
+      - name: GUEST_NAME
+        description: Guest name (from silver_guests).
+
+      - name: CREATED_AT
+        description: Timestamp the payment record was created.
