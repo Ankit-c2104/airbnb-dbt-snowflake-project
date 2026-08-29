@@ -1,0 +1,135 @@
+version: 2
+
+models:
+  - name: fct_reviews
+    description: >
+      Fact table at review grain. One row per review, with review measures
+      plus listing, host, and guest attributes.
+    columns:
+      - name: REVIEW_ID
+        description: Primary key. Unique identifier for a review.
+        tests:
+          - unique
+          - not_null
+
+      - name: BOOKING_ID
+        description: Foreign key to the related booking.
+        tests:
+          - relationships:
+              arguments:
+                to: ref('silver_bookings')
+                field: BOOKING_ID
+
+      - name: LISTING_ID
+        description: Foreign key to silver_listings.
+        tests:
+          - relationships:
+              arguments:
+                to: ref('silver_listings')
+                field: LISTING_ID
+
+      - name: HOST_ID
+        description: Foreign key to silver_hosts.
+        tests:
+          - relationships:
+              arguments:
+                to: ref('silver_hosts')
+                field: HOST_ID
+
+      - name: GUEST_ID
+        description: Foreign key to silver_guests.
+        tests:
+          - relationships:
+              arguments:
+                to: ref('silver_guests')
+                field: GUEST_ID
+
+      - name: REVIEW_DATE
+        description: Date the review was submitted.
+
+      - name: OVERALL_RATING
+        description: Overall rating given in the review (1-5).
+
+      - name: SENTIMENT
+        description: Derived sentiment of the review (positive / neutral / negative).
+
+      - name: PROPERTY_TYPE
+        description: Type of property reviewed (from silver_listings).
+
+      - name: ROOM_TYPE
+        description: Room type reviewed (from silver_listings).
+
+      - name: CITY
+        description: City of the reviewed listing (from silver_listings).
+
+      - name: COUNTRY
+        description: Country of the reviewed listing (from silver_listings).
+
+      - name: HOST_NAME
+        description: Host name (from silver_hosts).
+
+      - name: GUEST_NAME
+        description: Guest name (from silver_guests).
+
+      - name: CREATED_AT
+        description: Timestamp the review record was created.
+
+semantic_models:
+  - name: fct_reviews
+    description: >
+      Semantic model for the review fact table. Grain is one row per review.
+    model: ref('fct_reviews')
+    defaults:
+      agg_time_dimension: review_date
+
+    entities:
+      - name: review_id
+        type: primary
+        expr: REVIEW_ID
+      - name: booking_id
+        type: foreign
+        expr: BOOKING_ID
+      - name: listing_id
+        type: foreign
+        expr: LISTING_ID
+      - name: host_id
+        type: foreign
+        expr: HOST_ID
+      - name: guest_id
+        type: foreign
+        expr: GUEST_ID
+
+    dimensions:
+      - name: review_date
+        type: time
+        expr: REVIEW_DATE
+        type_params:
+          time_granularity: day
+      - name: sentiment
+        type: categorical
+        expr: SENTIMENT
+      - name: property_type
+        type: categorical
+        expr: PROPERTY_TYPE
+      - name: room_type
+        type: categorical
+        expr: ROOM_TYPE
+      - name: city
+        type: categorical
+        expr: CITY
+      - name: country
+        type: categorical
+        expr: COUNTRY
+      - name: overall_rating
+        type: categorical
+        expr: OVERALL_RATING
+
+    measures:
+      - name: review_count
+        description: Count of reviews.
+        agg: count
+        expr: REVIEW_ID
+      - name: overall_rating_avg
+        description: Average overall rating across reviews.
+        agg: average
+        expr: OVERALL_RATING

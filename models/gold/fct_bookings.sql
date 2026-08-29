@@ -32,6 +32,7 @@ SELECT
     obt.PRICE_PER_NIGHT,
     obt.RESPONSE_RATE,
     obt.BOOKING_DATE,
+    obt.BOOKING_STATUS,
     dim_listings.PROPERTY_TYPE,
     dim_listings.ROOM_TYPE,
     dim_listings.CITY,
