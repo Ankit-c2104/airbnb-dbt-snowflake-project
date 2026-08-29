@@ -34,3 +34,145 @@ metrics:
     type_params:
       numerator: total_revenue
       denominator: booking_count
+
+  # --- payments: simple metrics ---
+
+  - name: gross_payments_collected
+    description: Sum of successfully completed guest charges (gross payments in).
+    type: simple
+    label: Gross Payments Collected
+    type_params:
+      measure:
+        name: payment_amount_sum
+        filter: |
+          {{ Dimension('payment_type') }} = 'charge' and {{ Dimension('payment_status_group') }} = 'SUCCESS'
+
+  - name: total_refunds
+    description: Sum of successfully processed refunds paid back to guests.
+    type: simple
+    label: Total Refunds
+    type_params:
+      measure:
+        name: payment_amount_sum
+        filter: |
+          {{ Dimension('payment_type') }} = 'refund' and {{ Dimension('payment_status_group') }} = 'SUCCESS'
+
+  - name: total_payouts
+    description: Sum of successfully completed host payouts.
+    type: simple
+    label: Total Host Payouts
+    type_params:
+      measure:
+        name: payment_amount_sum
+        filter: |
+          {{ Dimension('payment_type') }} = 'payout' and {{ Dimension('payment_status_group') }} = 'SUCCESS'
+
+  - name: failed_payment_count
+    description: Count of payment transactions that failed.
+    type: simple
+    label: Failed Payment Count
+    type_params:
+      measure:
+        name: payment_count
+        filter: |
+          {{ Dimension('payment_status_group') }} = 'FAILED'
+
+  - name: payment_count
+    description: Count of all payment transactions, regardless of type or status.
+    type: simple
+    label: Payment Count
+    type_params:
+      measure: payment_count
+
+  # --- reviews: simple metrics ---
+
+  - name: review_count
+    description: Count of reviews.
+    type: simple
+    label: Review Count
+    type_params:
+      measure: review_count
+
+  - name: average_review_rating
+    description: Average overall rating across reviews.
+    type: simple
+    label: Average Review Rating
+    type_params:
+      measure: overall_rating_avg
+
+  - name: positive_review_count
+    description: Count of reviews with positive sentiment.
+    type: simple
+    label: Positive Review Count
+    type_params:
+      measure:
+        name: review_count
+        filter: |
+          {{ Dimension('sentiment') }} = 'positive'
+
+  - name: cancelled_booking_count
+    description: Count of cancelled bookings.
+    type: simple
+    label: Cancelled Booking Count
+    type_params:
+      measure:
+        name: cancelled_booking_count
+        filter: |
+          {{ Dimension('booking_status') }} = 'cancelled'
+
+  # --- complex metrics: derived, ratio, cumulative ---
+
+  - name: net_platform_revenue
+    description: >
+      Net cash retained by the platform from payment activity: gross
+      payments collected, less refunds and host payouts.
+    type: derived
+    label: Net Platform Revenue
+    type_params:
+      expr: gross_payments_collected - total_refunds - total_payouts
+      metrics:
+        - name: gross_payments_collected
+        - name: total_refunds
+        - name: total_payouts
+
+  - name: payment_failure_rate
+    description: Share of payment transactions that fail.
+    type: ratio
+    label: Payment Failure Rate
+    type_params:
+      numerator: failed_payment_count
+      denominator: payment_count
+
+  - name: positive_review_rate
+    description: Share of reviews that are positive.
+    type: ratio
+    label: Positive Review Rate
+    type_params:
+      numerator: positive_review_count
+      denominator: review_count
+
+  - name: platform_take_rate
+    description: >
+      Service fees as a share of total booking revenue — the platform's
+      commission / take rate.
+    type: ratio
+    label: Platform Take Rate
+    type_params:
+      numerator: total_service_fees
+      denominator: total_revenue
+
+  - name: cancellation_rate
+    description: Share of bookings that were cancelled.
+    type: ratio
+    label: Cancellation Rate
+    type_params:
+      numerator: cancelled_booking_count
+      denominator: booking_count
+
+  - name: trailing_30_day_revenue
+    description: Rolling 30-day sum of booking revenue.
+    type: cumulative
+    label: Trailing 30-Day Revenue
+    type_params:
+      measure: total_amount
+      window: 30 days

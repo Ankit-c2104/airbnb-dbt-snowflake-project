@@ -56,6 +56,9 @@ models:
       - name: BOOKING_DATE
         description: Date the booking was made.
 
+      - name: BOOKING_STATUS
+        description: Status of the booking (e.g. confirmed / cancelled / completed).
+
       - name: PROPERTY_TYPE
         description: Type of property (from dim_listings, as of BOOKING_DATE).
 
@@ -117,6 +120,9 @@ semantic_models:
       - name: is_superhost
         type: categorical
         expr: IS_SUPERHOST
+      - name: booking_status
+        type: categorical
+        expr: BOOKING_STATUS
 
     measures:
       - name: total_amount
@@ -133,5 +139,9 @@ semantic_models:
         expr: CLEANING_FEE
       - name: booking_count
         description: Count of bookings.
+        agg: count
+        expr: BOOKING_ID
+      - name: cancelled_booking_count
+        description: Count of bookings with a cancelled status.
         agg: count
         expr: BOOKING_ID
