@@ -1,0 +1,99 @@
+metrics:
+  - name: total_revenue
+    description: Total booking revenue (sum of TOTAL_AMOUNT).
+    type: simple
+    label: Total Revenue
+    type_params:
+      measure: total_amount
+    config:
+      meta:
+        owner: bookings-team
+
+  - name: booking_count
+    description: Count of bookings.
+    type: simple
+    label: Booking Count
+    type_params:
+      measure: booking_count
+    config:
+      meta:
+        owner: bookings-team
+
+  - name: total_service_fees
+    description: Total service fees collected.
+    type: simple
+    label: Total Service Fees
+    type_params:
+      measure: service_fee_amount
+    config:
+      meta:
+        owner: bookings-team
+
+  - name: total_cleaning_fees
+    description: Total cleaning fees collected.
+    type: simple
+    label: Total Cleaning Fees
+    type_params:
+      measure: cleaning_fee_amount
+    config:
+      meta:
+        owner: bookings-team
+
+  - name: avg_booking_value
+    description: Average revenue per booking (total revenue / booking count).
+    type: ratio
+    label: Average Booking Value
+    type_params:
+      numerator: total_revenue
+      denominator: booking_count
+    config:
+      meta:
+        owner: bookings-team
+
+  - name: cancelled_booking_count
+    description: Count of cancelled bookings.
+    type: simple
+    label: Cancelled Booking Count
+    type_params:
+      measure:
+        name: cancelled_booking_count
+        filter: |
+          {{ Dimension('booking_id__booking_status') }} = 'cancelled'
+    config:
+      meta:
+        owner: bookings-team
+
+  - name: platform_take_rate
+    description: >
+      Service fees as a share of total booking revenue — the platform's
+      commission / take rate.
+    type: ratio
+    label: Platform Take Rate
+    type_params:
+      numerator: total_service_fees
+      denominator: total_revenue
+    config:
+      meta:
+        owner: bookings-team
+
+  - name: cancellation_rate
+    description: Share of bookings that were cancelled.
+    type: ratio
+    label: Cancellation Rate
+    type_params:
+      numerator: cancelled_booking_count
+      denominator: booking_count
+    config:
+      meta:
+        owner: bookings-team
+
+  - name: trailing_30_day_revenue
+    description: Rolling 30-day sum of booking revenue.
+    type: cumulative
+    label: Trailing 30-Day Revenue
+    type_params:
+      measure: total_amount
+      window: 30 days
+    config:
+      meta:
+        owner: bookings-team

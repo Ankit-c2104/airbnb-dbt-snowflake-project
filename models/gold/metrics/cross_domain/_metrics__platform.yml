@@ -1,0 +1,14 @@
+metrics:
+  - name: net_revenue_per_booking
+    description: >
+      Net platform revenue generated per booking — combines the payments
+      domain's net_platform_revenue with the bookings domain's booking_count.
+      Org-level leadership/finance KPI, not owned by a single domain team.
+    type: ratio
+    label: Net Revenue Per Booking
+    type_params:
+      numerator: net_platform_revenue
+      denominator: booking_count
+    config:
+      # owner: TBD - cross-domain metric spanning payments + bookings; assign once an org-level metrics owner is designated
+      meta: {}

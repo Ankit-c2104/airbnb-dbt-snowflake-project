@@ -1,0 +1,63 @@
+semantic_models:
+  - name: fct_reviews
+    description: >
+      Semantic model for the review fact table. Grain is one row per review.
+    model: ref('fct_reviews')
+    defaults:
+      agg_time_dimension: review_date
+
+    entities:
+      - name: review_id
+        type: primary
+        expr: REVIEW_ID
+      - name: booking_id
+        type: foreign
+        expr: BOOKING_ID
+      - name: listing_id
+        type: foreign
+        expr: LISTING_ID
+      - name: host_id
+        type: foreign
+        expr: HOST_ID
+      - name: guest_id
+        type: foreign
+        expr: GUEST_ID
+
+    dimensions:
+      - name: review_date
+        type: time
+        expr: REVIEW_DATE
+        type_params:
+          time_granularity: day
+      - name: sentiment
+        type: categorical
+        expr: SENTIMENT
+      - name: property_type
+        type: categorical
+        expr: PROPERTY_TYPE
+      - name: room_type
+        type: categorical
+        expr: ROOM_TYPE
+      - name: city
+        type: categorical
+        expr: CITY
+      - name: country
+        type: categorical
+        expr: COUNTRY
+      - name: overall_rating
+        type: categorical
+        expr: OVERALL_RATING
+
+    measures:
+      - name: review_count
+        description: Count of reviews.
+        agg: count
+        expr: REVIEW_ID
+      - name: overall_rating_avg
+        description: Average overall rating across reviews.
+        agg: average
+        expr: OVERALL_RATING
+      - name: positive_review_count
+        description: Count of reviews with positive sentiment.
+        agg: count
+        expr: CASE WHEN SENTIMENT = 'positive' THEN REVIEW_ID END
