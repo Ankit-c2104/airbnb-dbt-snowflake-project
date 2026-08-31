@@ -133,3 +133,7 @@ semantic_models:
         description: Average overall rating across reviews.
         agg: average
         expr: OVERALL_RATING
+      - name: positive_review_count
+        description: Count of reviews with positive sentiment.
+        agg: count
+        expr: CASE WHEN SENTIMENT = 'positive' THEN REVIEW_ID END

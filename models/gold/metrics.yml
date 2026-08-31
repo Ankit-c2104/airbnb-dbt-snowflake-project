@@ -42,40 +42,28 @@ metrics:
     type: simple
     label: Gross Payments Collected
     type_params:
-      measure:
-        name: payment_amount_sum
-        filter: |
-          {{ Dimension('payment_type') }} = 'charge' and {{ Dimension('payment_status_group') }} = 'SUCCESS'
+      measure: gross_charge_amount
 
   - name: total_refunds
     description: Sum of successfully processed refunds paid back to guests.
     type: simple
     label: Total Refunds
     type_params:
-      measure:
-        name: payment_amount_sum
-        filter: |
-          {{ Dimension('payment_type') }} = 'refund' and {{ Dimension('payment_status_group') }} = 'SUCCESS'
+      measure: refund_amount
 
   - name: total_payouts
     description: Sum of successfully completed host payouts.
     type: simple
     label: Total Host Payouts
     type_params:
-      measure:
-        name: payment_amount_sum
-        filter: |
-          {{ Dimension('payment_type') }} = 'payout' and {{ Dimension('payment_status_group') }} = 'SUCCESS'
+      measure: payout_amount
 
   - name: failed_payment_count
     description: Count of payment transactions that failed.
     type: simple
     label: Failed Payment Count
     type_params:
-      measure:
-        name: payment_count
-        filter: |
-          {{ Dimension('payment_status_group') }} = 'FAILED'
+      measure: failed_payment_count
 
   - name: payment_count
     description: Count of all payment transactions, regardless of type or status.
@@ -105,10 +93,7 @@ metrics:
     type: simple
     label: Positive Review Count
     type_params:
-      measure:
-        name: review_count
-        filter: |
-          {{ Dimension('sentiment') }} = 'positive'
+      measure: positive_review_count
 
   - name: cancelled_booking_count
     description: Count of cancelled bookings.
@@ -118,7 +103,7 @@ metrics:
       measure:
         name: cancelled_booking_count
         filter: |
-          {{ Dimension('booking_status') }} = 'cancelled'
+          {{ Dimension('booking_id__booking_status') }} = 'cancelled'
 
   # --- complex metrics: derived, ratio, cumulative ---
 
