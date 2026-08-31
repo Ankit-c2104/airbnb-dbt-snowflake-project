@@ -1,0 +1,77 @@
+metrics:
+  - name: gross_payments_collected
+    description: Sum of successfully completed guest charges (gross payments in).
+    type: simple
+    label: Gross Payments Collected
+    type_params:
+      measure: gross_charge_amount
+    config:
+      meta:
+        owner: payments-team
+
+  - name: total_refunds
+    description: Sum of successfully processed refunds paid back to guests.
+    type: simple
+    label: Total Refunds
+    type_params:
+      measure: refund_amount
+    config:
+      meta:
+        owner: payments-team
+
+  - name: total_payouts
+    description: Sum of successfully completed host payouts.
+    type: simple
+    label: Total Host Payouts
+    type_params:
+      measure: payout_amount
+    config:
+      meta:
+        owner: payments-team
+
+  - name: failed_payment_count
+    description: Count of payment transactions that failed.
+    type: simple
+    label: Failed Payment Count
+    type_params:
+      measure: failed_payment_count
+    config:
+      meta:
+        owner: payments-team
+
+  - name: payment_count
+    description: Count of all payment transactions, regardless of type or status.
+    type: simple
+    label: Payment Count
+    type_params:
+      measure: payment_count
+    config:
+      meta:
+        owner: payments-team
+
+  - name: net_platform_revenue
+    description: >
+      Net cash retained by the platform from payment activity: gross
+      payments collected, less refunds and host payouts.
+    type: derived
+    label: Net Platform Revenue
+    type_params:
+      expr: gross_payments_collected - total_refunds - total_payouts
+      metrics:
+        - name: gross_payments_collected
+        - name: total_refunds
+        - name: total_payouts
+    config:
+      meta:
+        owner: payments-team
+
+  - name: payment_failure_rate
+    description: Share of payment transactions that fail.
+    type: ratio
+    label: Payment Failure Rate
+    type_params:
+      numerator: failed_payment_count
+      denominator: payment_count
+    config:
+      meta:
+        owner: payments-team

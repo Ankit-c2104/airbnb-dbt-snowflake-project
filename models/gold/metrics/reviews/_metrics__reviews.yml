@@ -1,0 +1,41 @@
+metrics:
+  - name: review_count
+    description: Count of reviews.
+    type: simple
+    label: Review Count
+    type_params:
+      measure: review_count
+    config:
+      meta:
+        owner: reviews-team
+
+  - name: average_review_rating
+    description: Average overall rating across reviews.
+    type: simple
+    label: Average Review Rating
+    type_params:
+      measure: overall_rating_avg
+    config:
+      meta:
+        owner: reviews-team
+
+  - name: positive_review_count
+    description: Count of reviews with positive sentiment.
+    type: simple
+    label: Positive Review Count
+    type_params:
+      measure: positive_review_count
+    config:
+      meta:
+        owner: reviews-team
+
+  - name: positive_review_rate
+    description: Share of reviews that are positive.
+    type: ratio
+    label: Positive Review Rate
+    type_params:
+      numerator: positive_review_count
+      denominator: review_count
+    config:
+      meta:
+        owner: reviews-team
