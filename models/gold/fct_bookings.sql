@@ -54,3 +54,5 @@ LEFT JOIN dim_hosts
         obt.BOOKING_DATE >= dim_hosts.DBT_VALID_FROM
         OR dim_hosts.DBT_VALID_FROM = dim_hosts.FIRST_VALID_FROM
     )
+
+
