@@ -1,3 +1,6 @@
+DBT Cloud - Semantic Role Config
+
+
 
 --commands ran in cursor terminal
 openssl genrsa 2048 | openssl pkcs8 -topk8 -inform PEM -out svc_semantic_layer_rsa_key.p8 -nocrypt // no need of a Passphrase, keep it empty
