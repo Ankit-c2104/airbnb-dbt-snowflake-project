@@ -1,6 +1,8 @@
 metrics:
   - name: total_revenue
-    description: Total booking revenue (sum of TOTAL_AMOUNT).
+    description: >
+      Total booking revenue (sum of TOTAL_AMOUNT).
+      Caution: for "top N" / "bottom N" rankings, LIMIT N alone will silently drop ties at the cutoff. Query a buffer beyond N and check for ties at the boundary, or use a DENSE_RANK-based rank dimension if available.
     type: simple
     label: Total Revenue
     type_params:
